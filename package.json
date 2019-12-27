@@ -43,6 +43,8 @@
     "jsonwebtoken": "^8.5.1",
     "seneca": "^3.17.0",
     "seneca-sqs-transport": "^0.1.1",
+    "sequelize": "^5.21.3",
+    "sqlite3": "^4.1.1",
     "uuid": "^3.3.3",
     "web3": "^0.20.7",
     "winston": "^3.2.1"
@@ -61,6 +63,7 @@
     "@types/node": "^12.12.7",
     "@types/nodemailer": "^6.2.1",
     "@types/seneca": "^2.1.9",
+    "@types/sequelize": "^4.28.8",
     "@types/uuid": "^3.4.6",
     "@types/web3": "^1.2.2",
     "@typescript-eslint/eslint-plugin": "^2.7.0",

@@ -22,8 +22,8 @@ export class SenecaLoggerAdapter {
         // current instance of Seneca plus the raw payload.
         logger: (context: any, payload: any) => {
 
-          const kind = this._pad(payload.kind || '-', 8).toUpperCase();
-          const type = this._pad(payload.case || '-', 8).toUpperCase();
+          const kind = this._pad(payload.kind || '*', 8).toUpperCase();
+          const type = this._pad(payload.case || '*', 8).toUpperCase();
           const text = payload.pattern || payload.notice || '-';
 
           if (kind === 'FATAL' || payload.case === 'ERR') {
@@ -43,7 +43,7 @@ export class SenecaLoggerAdapter {
       content = content + ' ';
     }
 
-    return content;
+    return `[${content.trim()}]`;
   }
 }
 

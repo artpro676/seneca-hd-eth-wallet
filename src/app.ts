@@ -3,7 +3,7 @@ import * as plugins from './plugins';
 import * as Seneca from 'seneca';
 import { Logger, SenecaLoggerAdapter } from './lib/logger';
 
-const log = new Logger('SENECA');
+const log = new Logger('SNC');
 
 export class App {
 
@@ -48,7 +48,9 @@ export class App {
             }
           });
 
-          log.info(`Plugin ${plugin.pin} has been initiated`);
+
+
+          log.info(`Plugin {${plugin.pin.toString()}} has been initiated`);
         }
       );
   }
