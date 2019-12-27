@@ -38,7 +38,7 @@ export class App {
       .forEach(
         Plugin => {
           const plugin = new Plugin(config);
-          this.seneca.add(plugin.methodSign, async (msg: any, reply) => {
+          this.seneca.add(plugin.pin, async (msg: any, reply) => {
             try {
               const result = await plugin.handle(msg);
               reply(null, result);
@@ -47,6 +47,8 @@ export class App {
               reply(err);
             }
           });
+
+          log.info(`Plugin ${plugin.pin} has been initiated`);
         }
       );
   }

@@ -5,7 +5,7 @@ import {EthHdWallet} from '../lib/wallet';
 const log = new Logger('PLGIN:InitMasterkeyPlugin');
 
 export class InitMasterkeyPlugin extends BasePlugin {
-  get methodSign() {
+  get pin() {
     return 'role:wallet,cmd:init';
   }
 

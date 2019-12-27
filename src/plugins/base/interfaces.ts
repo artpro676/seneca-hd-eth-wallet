@@ -1,4 +1,4 @@
 export interface IPlugin {
-  readonly methodSign: string;
+  readonly pin: string;
   handle(message: any): Promise<any>;
 }

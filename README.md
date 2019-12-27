@@ -1,3 +1,19 @@
-## Debugging & running Stripe webhooks locally
-- download `stripe-cli`
-- run `stripe listen --forward-to localhost:3000/api/v1/payments/stripe/webhook`
+### SPIN HD Wallet service
+
+
+## Testing
+
+Request `POST http://localhost:8000/act` with body :
+
+```
+{
+	"cmd": "ping"
+}
+```
+
+Response : 
+```
+{
+    "answer": "pong"
+}
+```
