@@ -47,9 +47,6 @@ export class App {
               reply(err);
             }
           });
-
-
-
           log.info(`Plugin {${plugin.pin.toString()}} has been initiated`);
         }
       );

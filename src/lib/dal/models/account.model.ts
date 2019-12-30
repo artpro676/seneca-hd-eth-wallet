@@ -8,6 +8,7 @@ export interface IAccountModel {
   id: number;
   userId: number;
   address: string;
+  mnemonic: string;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -22,7 +23,10 @@ const modelAttributes: DBModelFieldInit<IAccountModel> = {
     type: DataTypes.INTEGER
   },
   address: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING
+  },
+  mnemonic: {
+    type: DataTypes.STRING
   },
 };
 

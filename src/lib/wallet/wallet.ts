@@ -1,16 +1,19 @@
 import { addHexPrefix } from 'ethereumjs-util';
-import {fromExtendedKey} from 'ethereumjs-wallet/hdkey';
+import {fromExtendedKey, fromMasterSeed} from 'ethereumjs-wallet/hdkey';
 import { Transaction as EthereumTx, TxData } from 'ethereumjs-tx';
 import * as EthSigUtil from 'eth-sig-util';
 
 /* eslint-disable  @typescript-eslint/ban-ts-ignore */
 // @ts-ignore
 import * as Mnemonic from 'bitcore-mnemonic';
+import * as bip39 from 'bip39';
 /* eslint-enable  @typescript-eslint/ban-ts-ignore */
 
 
+
+const NETWORK_TYPE = 60; // TODO should be changed to any available value
 // See https://github.com/ethereum/EIPs/issues/85
-const BIP44_PATH = `m/44'/60'/0'/0`;
+const BIP44_PATH = `m/44'/${NETWORK_TYPE}'/0'/0`;
 
 
 export interface SignTransactionOptions {
@@ -25,18 +28,23 @@ export interface SignTransactionOptions {
 }
 
 
+export function generateMnemonic() {
+  return bip39.generateMnemonic();
+}
+
 /**
  * Normalize an Etherum address
  * @param  {String} addr Address
  * @return {Striung}
  */
-const normalizeAddress = (addr: string) => addr ? addHexPrefix(addr.toLowerCase()) : addr;
-
+export function normalizeAddress(addr: string)  {
+  return addr ? addHexPrefix(addr.toLowerCase()) : addr
+}
 
 /**
  * Represents a wallet instance.
  */
-export class EthHdWallet {
+export class Wallet {
 
   private _hdKey: any;
   private _root: any;
@@ -56,22 +64,14 @@ export class EthHdWallet {
   /**
    * Construct HD wallet instance from given mnemonic
    * @param  {String} mnemonic Mnemonic/seed string.
-   * @return {EthHdWallet}
+   * @return {Wallet}
    */
-  static fromMnemonic(mnemonic: string) {
-    const mnemonicInstance = new Mnemonic(mnemonic);
-    const {xprivkey} = mnemonicInstance.toHDPrivateKey();
-
-    return new EthHdWallet(xprivkey);
+  static async fromMnemonic(mnemonic: string) : Promise<Wallet> {
+    const seed: Buffer = await bip39.mnemonicToSeed(mnemonic); //creates seed buffer
+    const root:any = fromMasterSeed(seed as any);
+    const xprv = root.privateExtendedKey();
+    return new Wallet(xprv.toString('hex'));
   }
-
-  /**
-   * Generate a 12-word mnemonic in English.
-   * @return {[String]}
-   */
-  static generateMnemonic = () => {
-    return new Mnemonic(Mnemonic.Words.ENGLISH).toString();
-  };
 
   /**
    * Generate new addresses.

@@ -10,6 +10,7 @@ export class SignTransactionPlugin extends BasePlugin {
 
   handle(message: any) {
     log.info(message);
+
     return {a: 1};
   }
 }
