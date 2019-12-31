@@ -2,6 +2,7 @@ import { BasePlugin } from './base/_base.plugin';
 import { Logger } from '../lib/logger';
 import { Wallet, generateMnemonic } from '../lib/wallet';
 import { accountRepository } from '../lib/dal';
+import * as Joi from 'joi';
 
 const log = new Logger('PGN:CreateWalletPlugin');
 
@@ -14,15 +15,20 @@ export type CreateAddressOptions = {
 
 export class GetWalletPlugin extends BasePlugin {
   get pin() {
-    return 'role:wallet,cmd:get,uid:*';
-  }
+    return {
+      role: 'wallet',
+      cmd: 'get',
+      uid: Joi.number().required(),
+      mnemonic: Joi.string().max(500)
+    };
+  };
 
   async handle(message: CreateAddressOptions) {
     log.info(message);
 
     let account = await accountRepository.findByUid(message.uid);
 
-    if(!account) {
+    if (!account) {
       const mnemonic = message.mnemonic ? message.mnemonic : generateMnemonic();
       account = await accountRepository.create({uid: message.uid, mnemonic});
     }

@@ -7,7 +7,7 @@ export abstract class BasePlugin implements IPlugin{
   private config: any;
   /* eslint-enable  @typescript-eslint/ban-ts-ignore */
 
-  abstract readonly pin: string;
+  abstract readonly pin: string | any;
 
   constructor(config: any) {
     this.config = config;

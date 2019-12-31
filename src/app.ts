@@ -1,6 +1,6 @@
-import * as plugins from './plugins';
-
 import * as Seneca from 'seneca';
+
+import * as plugins from './plugins';
 import { Logger, SenecaLoggerAdapter } from './lib/logger';
 
 const log = new Logger('SNC');
@@ -31,6 +31,7 @@ export class App {
       timeout: 30000
     } as any);
 
+    this.seneca.use('seneca-joi');
     // this.seneca.use('seneca-sqs-transport');
 
     Object
@@ -38,6 +39,7 @@ export class App {
       .forEach(
         Plugin => {
           const plugin = new Plugin(config);
+
           this.seneca.add(plugin.pin, async (msg: any, reply) => {
             try {
               const result = await plugin.handle(msg);
