@@ -14,16 +14,11 @@ export abstract class BaseRepository implements IRepository{
   }
 
   constructor(models: any) {
-
     this.models = models;
-
-    if (!this.Model) {
-      throw new Error('Wrong parameter "keyModel"');
-    }
   }
 
   create(value: any, options?: any) {
-    return this.Model.create(value, options);
+      return this.Model.create(value, options);
   }
 
   findOne(options: any) {

@@ -1,30 +1,29 @@
 import { addHexPrefix } from 'ethereumjs-util';
-import {fromExtendedKey, fromMasterSeed} from 'ethereumjs-wallet/hdkey';
+import { fromExtendedKey, fromMasterSeed } from 'ethereumjs-wallet/hdkey';
 import { Transaction as EthereumTx, TxData } from 'ethereumjs-tx';
 import * as EthSigUtil from 'eth-sig-util';
+import { TOKEN_TYPES } from './enums';
 
 /* eslint-disable  @typescript-eslint/ban-ts-ignore */
 // @ts-ignore
-import * as Mnemonic from 'bitcore-mnemonic';
 import * as bip39 from 'bip39';
 /* eslint-enable  @typescript-eslint/ban-ts-ignore */
 
-
-
-const NETWORK_TYPE = 60; // TODO should be changed to any available value
-// See https://github.com/ethereum/EIPs/issues/85
-const BIP44_PATH = `m/44'/${NETWORK_TYPE}'/0'/0`;
-
+const WALLET_TOKEN_TYPES = [
+  TOKEN_TYPES.ETHEREUM,
+  // TOKEN_TYPES.DEFAULT_TOKEN,
+  // TOKEN_TYPES.REWARD_TOKEN,
+];
 
 export interface SignTransactionOptions {
-  nonce: string;
+  nonce: string; // transaction nonce, security feature that prevents double spending
   from: string;
-  to: string;
+  to: string; //  the address to whom the funds are to be sent
   value: string;
   data: any;
   gasLimit: string;
   gasPrice: string;
-  chainId: string;
+  chainId: string; // 1 for mainnet, 3 for Ropsten testnet. Here’s a complete list : https://ethereum.stackexchange.com/questions/17051/how-to-select-a-network-id-or-is-there-a-list-of-network-ids
 }
 
 
@@ -37,8 +36,8 @@ export function generateMnemonic() {
  * @param  {String} addr Address
  * @return {Striung}
  */
-export function normalizeAddress(addr: string)  {
-  return addr ? addHexPrefix(addr.toLowerCase()) : addr
+export function normalizeAddress(addr: string) {
+  return addr ? addHexPrefix(addr.toLowerCase()) : addr;
 }
 
 /**
@@ -47,7 +46,6 @@ export function normalizeAddress(addr: string)  {
 export class Wallet {
 
   private _hdKey: any;
-  private _root: any;
   private _children: any[];
 
   /**
@@ -56,21 +54,30 @@ export class Wallet {
    */
   constructor(xPrivKey: string) {
     this._hdKey = fromExtendedKey(xPrivKey);
-    this._root = this._hdKey.derivePath(BIP44_PATH);
     this._children = [];
   }
 
+  toJSON() {
+    return {addresses:  this._children.map(k => ({address: k.address, type: k.type}))};
+  }
 
   /**
    * Construct HD wallet instance from given mnemonic
    * @param  {String} mnemonic Mnemonic/seed string.
    * @return {Wallet}
    */
-  static async fromMnemonic(mnemonic: string) : Promise<Wallet> {
+  static async fromMnemonic(mnemonic: string): Promise<Wallet> {
     const seed: Buffer = await bip39.mnemonicToSeed(mnemonic); //creates seed buffer
-    const root:any = fromMasterSeed(seed as any);
+    const root: any = fromMasterSeed(seed as any);
     const xprv = root.privateExtendedKey();
-    return new Wallet(xprv.toString('hex'));
+    const wallet = new Wallet(xprv.toString('hex'));
+
+    WALLET_TOKEN_TYPES.map((tokenType: number) => ({
+      addresses: wallet.generateAddresses(1, tokenType),
+      token: TOKEN_TYPES[tokenType]
+    }));
+
+    return wallet;
   }
 
   /**
@@ -78,8 +85,8 @@ export class Wallet {
    * @param  {Number} num No. of new addresses to generate.
    * @return {[String]}
    */
-  generateAddresses(num: number) {
-    const newKeys: any = this._deriveNewKeys(num);
+  generateAddresses(num: number, coinType: TOKEN_TYPES) {
+    const newKeys: any = this._deriveNewKeys(num, coinType);
 
     return newKeys.map((k: any) => k.address);
   }
@@ -173,7 +180,7 @@ export class Wallet {
     const tx = new EthereumTx({
       to,
       nonce: options.nonce,
-      value: options.value,
+      value:  options.value,
       data: options.data,
       gasLimit: options.gasLimit,
       gasPrice: options.gasPrice,
@@ -223,13 +230,14 @@ export class Wallet {
    * @param  {Number} num no. of new keypairs to generate
    * @return {[String]} Generated keypairs.
    */
-  _deriveNewKeys(num: number) {
+  _deriveNewKeys(num: number, coinType: TOKEN_TYPES) {
     let count = num;
 
     while (--count >= 0) {
-      const child = this._root.deriveChild(this._children.length).getWallet();
+      const child = this._getRoot(coinType).deriveChild(this._children.length).getWallet();
 
       this._children.push({
+        type: coinType,
         wallet: child,
         address: normalizeAddress(child.getAddress().toString('hex'))
       });
@@ -243,7 +251,7 @@ export class Wallet {
    * @param address
    * @private
    */
-  _findWallet(address: string){
+  _findWallet(address: string) {
 
     const normalizedAddr = normalizeAddress(address);
 
@@ -254,5 +262,9 @@ export class Wallet {
     }
 
     return result.wallet;
+  }
+
+  _getRoot(coinType: TOKEN_TYPES = TOKEN_TYPES.DEFAULT_TOKEN) {
+    return this._hdKey.derivePath(`m/44'/${coinType}'/0'/0`);
   }
 }

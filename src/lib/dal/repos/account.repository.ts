@@ -10,5 +10,9 @@ export class AccountRepository extends BaseRepository {
     return DB_MODEL_NAME.ACCOUNT;
   }
 
+  findByUid(uid: number){
+    return this.Model.findOne({where: {uid}});
+  }
+
 }
 

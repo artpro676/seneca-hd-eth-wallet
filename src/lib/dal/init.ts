@@ -1,9 +1,8 @@
 import * as Models from './models';
-import * as Repositories from './repos';
+import {AccountRepository} from './repos';
 
-const models: any = Object.values(Models).reduce((model: any, acc: any) => {
-  if (!model)
-  {throw new Error('Cannot get property "model"!');}
+const models: any = Object.values(Models).reduce((acc: any, model: any) => {
+  if (!model || !model.name) return;
 
   acc[model.name] = model;
 
@@ -19,11 +18,6 @@ Object.values(Models).forEach(async (model: any) => {
   }
 });
 
-export const REPO = Object.values(Repositories).reduce((Repository: any, acc: any) => {
-  const repository = new Repository(models);
-  acc[repository.ModelName] = repository;
-
-  return acc;
-}, {});
+export const accountRepository = new AccountRepository(models);
 
 

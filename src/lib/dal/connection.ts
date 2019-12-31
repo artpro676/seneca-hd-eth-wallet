@@ -9,7 +9,7 @@ const log = new Logger('DB:Provider');
 class DbProvider {
   db: Sequelize;
 
-  constructor(storage = ':memory', encryptionKey: string | null = null) {
+  constructor(storage = ':memory:', encryptionKey: string | null = null) {
 
     const options = encryptionKey
       ? [
@@ -32,7 +32,6 @@ class DbProvider {
           logging: (msg: string) => log.info(msg)
         }
       ];
-
 
     this.db = new (sequelize as any)(...options);
 

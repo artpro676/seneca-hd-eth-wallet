@@ -6,8 +6,7 @@ import { DB_MODEL_NAME } from '../enums';
 
 export interface IAccountModel {
   id: number;
-  userId: number;
-  address: string;
+  uid: number; // user`s id
   mnemonic: string;
   createdAt?: string;
   updatedAt?: string;
@@ -19,20 +18,27 @@ const modelAttributes: DBModelFieldInit<IAccountModel> = {
     primaryKey: true,
     autoIncrement: true
   },
-  userId: {
-    type: DataTypes.INTEGER
-  },
-  address: {
-    type: DataTypes.STRING
+  uid: {
+    type: DataTypes.INTEGER,
   },
   mnemonic: {
-    type: DataTypes.STRING
-  },
+    type: DataTypes.STRING,
+  }
 };
 
-export class CommentDBModel extends Model {}
+export class AccountDBModel extends Model {
 
-CommentDBModel.init(
+  toJSON(){
+    const obj: any = this.get({ plain: true });
+    if(obj.mnemonic) {
+      obj.mnemonic = '*********************';
+    }
+    return obj;
+  }
+
+}
+
+AccountDBModel.init(
   modelAttributes as ModelAttributes,
   {
     sequelize: db,
