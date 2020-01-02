@@ -7,7 +7,7 @@ const log = new Logger('SNC');
 
 export class App {
 
-  private seneca: Seneca.Instance;
+  seneca: Seneca.Instance;
   private options: any;
 
   constructor(config: any) {
@@ -67,7 +67,7 @@ export class App {
             return rej(err);
           }
           log.info(`Started listener. ID=${this.seneca} Tag=${(this.seneca as any).tag}`);
-          res();
+          res(this.seneca);
         });
     });
   }
