@@ -25,6 +25,7 @@ export class App {
     };
 
     this.seneca = Seneca({
+      tag: 'wallet',
       internal: {
         logger: new SenecaLoggerAdapter(log)
       },
@@ -65,7 +66,7 @@ export class App {
 
             return rej(err);
           }
-          log.info(`Started listener`);
+          log.info(`Started listener. ID=${this.seneca} Tag=${(this.seneca as any).tag}`);
           res();
         });
     });

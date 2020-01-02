@@ -17,6 +17,12 @@ const app = new App(configs);
       log.error('Uncaught exception:', err);
     });
 
+    process.on('unhandledRejection', (err) => {
+      log.error('Unhandled Rejection:', err ? (err as any).message : null);
+      //process.exit(0);
+    });
+
+
     await app.start();
 
   } catch (err) {

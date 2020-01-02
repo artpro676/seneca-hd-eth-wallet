@@ -18,6 +18,7 @@ export class SignTransactionPlugin extends BasePlugin {
           from: Joi.string().required(),
           to: Joi.string().required(),
           value: Joi.number().required(),
+          // value: Joi.string().regex(/^[0-9]+\.[0-9]{0,15}$/).required(),
           gasLimit: Joi.number().required(),
           gasPrice: Joi.number().required(),
           chainId: Joi.number().required()
@@ -35,7 +36,9 @@ export class SignTransactionPlugin extends BasePlugin {
       }
 
       const wallet = await Wallet.fromMnemonic(account.mnemonic);
+
       const signedTx = wallet.signTransaction(message.tx);
+
       return {signedTx};
   }
 }

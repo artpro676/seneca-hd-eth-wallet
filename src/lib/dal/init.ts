@@ -1,3 +1,7 @@
+import {provider} from './db-provider';
+
+provider.connection;
+
 import * as Models from './models';
 import {AccountRepository} from './repos';
 

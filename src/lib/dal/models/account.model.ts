@@ -1,6 +1,6 @@
 import { DataTypes, Model, ModelAttributes } from 'sequelize';
 
-import { db } from '../connection';
+import { provider } from '../db-provider';
 import { DBModelFieldInit } from '../types';
 import { DB_MODEL_NAME } from '../enums';
 
@@ -41,7 +41,7 @@ export class AccountDBModel extends Model {
 AccountDBModel.init(
   modelAttributes as ModelAttributes,
   {
-    sequelize: db,
+    sequelize: provider.connection,
     modelName: DB_MODEL_NAME.ACCOUNT,
     tableName: 'accounts',
     timestamps: true
