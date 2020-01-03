@@ -80,11 +80,15 @@ If you need to update `npm`, you can make it using `npm`! Cool right? After runn
 
 ## Build the project
 
-    $ npm run build
+    $ npm run build 
 
 ## Run the project
 
     $ npm run app:start
+
+## Run tests
+
+    $ npm run test
 
 ## Run with watch
 
