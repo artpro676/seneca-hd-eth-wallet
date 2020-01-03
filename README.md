@@ -89,3 +89,68 @@ If you need to update `npm`, you can make it using `npm`! Cool right? After runn
 ## Run with watch
 
     $ npm run app:dev
+
+## API
+
+#### PING
+
+Act :
+
+    {
+      "cmd": "ping"
+    }
+
+
+Response : 
+
+    {
+        "answer": "pong"
+    }
+
+#### Get/Create Wallet
+
+Act :
+
+    {
+      "role": "wallet",
+      "cmd": "get",
+      "uid": 123...9 <-- some external user ID 
+    }
+
+
+Response : 
+
+    "wallet": {
+        "addresses": [
+            {
+                "address": "0xb903fa023557f3af54f6c607f4fe557578d63f4d",
+                "type": 60 <-- Ethereum type
+            }
+        ]
+    }
+
+#### Sign transaction
+
+Act :
+
+    {
+        "role": "wallet",
+        "cmd": "signTx",
+        "uid": 123...9,
+        "tx": {
+          "nonce": 0,
+          "from": "0xb903fa023557f3af54f6c607f4fe557578d63f4d",
+            "to": "0x30b4d63b00ca3f76c94dac89b8ed70e8d3d5abe0",
+            "value": 0.000000000000001,
+            "gasLimit": 21000,
+            "gasPrice": 51000000000,
+            "chainId": "3"
+        }
+    }
+
+
+Response : 
+
+    {
+       "signedTx": "00..0123"
+    }
