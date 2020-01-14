@@ -18,8 +18,11 @@ const app = new App(configs);
     });
 
     process.on('unhandledRejection', (err) => {
-      log.error('Unhandled Rejection:', err ? (err as any).message : null);
-      //process.exit(0);
+      log.error('Unhandled Rejection:', err);
+
+      if(err && (err as any).message.indexOf('SQLITE_NOTADB')>=0) {
+        process.exit(1);
+      }
     });
 
 
