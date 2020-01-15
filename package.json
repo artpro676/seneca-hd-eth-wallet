@@ -1,7 +1,7 @@
 {
-  "name": "spin-hd-wallet",
+  "name": "seneca-hd-eth-wallet",
   "version": "1.0.0",
-  "description": "SPIN HD Wallet",
+  "description": "seneca Ethereum HDWallet",
   "main": "dist/index",
   "typings": "dist/index",
   "engines": {
@@ -18,13 +18,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/free-will/hd-wallet-service.git"
+    "url": "git+git@github.com:artpro676/seneca-hd-eth-wallet.git"
   },
-  "author": "",
+  "author": "elarturiokowalski@gmail.com",
   "bugs": {
-    "url": "https://gitlab.com/free-will/hd-wallet-service/issues"
+    "url": "https://github.com/artpro676/seneca-hd-eth-wallet/issues"
   },
-  "homepage": "https://gitlab.com/free-will/hd-wallet-service#readme",
+  "homepage": "https://github.com/artpro676/seneca-hd-eth-wallet#readme",
   "dependencies": {
     "@journeyapps/sqlcipher": "^4.0.0",
     "autobind-decorator": "^2.4.0",
