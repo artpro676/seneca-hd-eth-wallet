@@ -1,7 +1,7 @@
 {
-  "name": "freewill-hd-wallet",
+  "name": "spin-hd-wallet",
   "version": "1.0.0",
-  "description": "SPIN HD Wallet manager",
+  "description": "SPIN HD Wallet",
   "main": "dist/index",
   "typings": "dist/index",
   "engines": {
@@ -18,13 +18,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/free-will/spin-crowdfunding-platform-be.git"
+    "url": "git+https://gitlab.com/free-will/hd-wallet-service.git"
   },
   "author": "",
   "bugs": {
-    "url": "https://gitlab.com/free-will/spin-crowdfunding-platform-be/issues"
+    "url": "https://gitlab.com/free-will/hd-wallet-service/issues"
   },
-  "homepage": "https://gitlab.com/free-will/spin-crowdfunding-platform-be#readme",
+  "homepage": "https://gitlab.com/free-will/hd-wallet-service#readme",
   "dependencies": {
     "@journeyapps/sqlcipher": "^4.0.0",
     "autobind-decorator": "^2.4.0",
