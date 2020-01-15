@@ -1,7 +1,4 @@
-### SPIN HD Wallet service
-
-
-# SPIN HD Wallet service
+# HD Wallet service
 
 A nice project with a nice description
 
