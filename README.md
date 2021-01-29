@@ -63,7 +63,7 @@ If you need to update `npm`, you can make it using `npm`! Cool right? After runn
 
 ## Install
 
-    $ git clone https://gitlab.com/free-will/hd-wallet-service
+    $ git clone https://github.com/artpro676/seneca-hd-eth-wallet
     $ cd hd-wallet-service
     $ npm install
 
