@@ -28,7 +28,7 @@
   "dependencies": {
     "@journeyapps/sqlcipher": "^4.0.0",
     "autobind-decorator": "^2.4.0",
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "bip39": "^3.0.2",
     "bitcore-mnemonic": "^8.13.2",
     "case": "^1.6.2",
